@@ -5,7 +5,7 @@ lspconfig = require('lspconfig')
 -- here we're setting key mappings for hover documentation, goto definitions, goto references, etc
 -- you may set those key mappings based on your own preference
 local on_attach = function(client, bufnr)
-  local opts = { noremap=true, silent=true }
+  local opts = { noremap = true, silent = true }
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   vim.api.nvim_buf_set_option(bufnr, 'tagfunc', 'v:lua.vim.lsp.tagfunc')
@@ -27,32 +27,8 @@ end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
--- lspconfig.sumneko_lua.setup {
---   settings = {
---     Lua = {
---       runtime = {
---         -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
---         version = 'LuaJIT',
---       },
---       diagnostics = {
---         -- Get the language server to recognize the `vim` global
---         globals = {'vim'},
---       },
---       workspace = {
---         -- Make the server aware of Neovim runtime files
---         library = vim.api.nvim_get_runtime_file("", true),
---       },
---       -- Do not send telemetry data containing a randomized but unique identifier
---       telemetry = {
---         enable = false,
---       },
---     },
---   },
---   capabilities = capabilities
--- }
+local manager = require('lvim.lsp.manager')
 
--- setting up the elixir language server
--- you have to manually specify the entrypoint cmd for elixir-ls
 lspconfig.elixirls.setup {
   cmd = { "elixir-ls" },
   on_attach = on_attach,
@@ -62,26 +38,26 @@ lspconfig.elixirls.setup {
 lspconfig.efm.setup({
   capabilities = capabilities,
   on_attach = on_attach,
-  filetypes = {"elixir"}
+  filetypes = { "elixir" }
 })
 
 lspconfig.html.setup({
   -- Custom command for the new executables for vscode html language server
-  cmd = {'html-languageserver', '--stdio'},
+  cmd = { 'html-languageserver', '--stdio' },
   capabilities = capabilities,
-  -- Adding heex files 
-  filetypes = {'html', 'heex'}
+  -- Adding heex files
+  filetypes = { 'html', 'heex' }
 })
 
 lspconfig.cssls.setup({
   -- Custom command for the new executables for vscode html language server
-  cmd = {'css-languageserver', '--stdio'},
+  cmd = { 'css-languageserver', '--stdio' },
   capabilities = capabilities
 })
 
 lspconfig.tsserver.setup({
   capabilities = capabilities,
-  filetypes = {'typescript', 'typescriptreact', 'typescript.tsx'},
+  filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx' },
   root_dir = function() return vim.loop.cwd() end
 })
 
@@ -94,3 +70,4 @@ lspconfig.flow.setup({
   root_dir = function() return vim.loop.cwd() end
 })
 
+manager.setup('tailwindcss')

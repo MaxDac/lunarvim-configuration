@@ -63,25 +63,28 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 
-lvim.builtin.nvimtree.setup.view.side = "left"
+lvim.builtin.nvimtree.setup.view.side = "right"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.nvimtree.setup.sort_by = "case_sensitive"
 lvim.builtin.nvimtree.setup.view.adaptive_size = true
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
---   "bash",
---   "c",
+  --   "bash",
+  --   "c",
   "javascript",
   "json",
   "lua",
---   "python",
---   "typescript",
---   "tsx",
+  --   "python",
+  --   "typescript",
+  --   "tsx",
   "css",
---   "rust",
---   "java",
---   "yaml",
+  "html",
+  "surface",
+  "c_sharp",
+  --   "rust",
+  --   "java",
+  --   "yaml",
   "elixir"
 }
 
@@ -164,13 +167,15 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- }
 
 -- Additional Plugins
--- lvim.plugins = {
---     {"folke/tokyonight.nvim"},
---     {
---       "folke/trouble.nvim",
---       cmd = "TroubleToggle",
---     },
--- }
+lvim.plugins = {
+  {
+    "dyng/ctrlsf.vim",
+    "folke/trouble.nvim",
+    "OmniSharp/omnisharp-vim",
+    "github/copilot.vim",
+    cmd = "TroubleToggle",
+  },
+}
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
@@ -186,7 +191,10 @@ lvim.builtin.treesitter.highlight.enabled = true
 --   end,
 -- })
 
+vim.api.nvim_set_keymap('n', '<C-b>', ':lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
+
 vim.opt.relativenumber = true
 
 require('barbar-mapping')
 require('lsp-config')
+require('telescope-config')
