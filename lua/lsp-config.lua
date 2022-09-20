@@ -1,5 +1,3 @@
-lspconfig = require('lspconfig')
-
 -- `on_attach` callback will be called after a language server
 -- instance has been attached to an open buffer with matching filetype
 -- here we're setting key mappings for hover documentation, goto definitions, goto references, etc
@@ -29,45 +27,49 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 
 local manager = require('lvim.lsp.manager')
 
-lspconfig.elixirls.setup {
+manager.setup("elixirls", {
   cmd = { "elixir-ls" },
   on_attach = on_attach,
   capabilities = capabilities
-}
+})
 
-lspconfig.efm.setup({
+manager.setup("efm", {
   capabilities = capabilities,
   on_attach = on_attach,
   filetypes = { "elixir" }
 })
 
-lspconfig.html.setup({
+manager.setup("html", {
   -- Custom command for the new executables for vscode html language server
   cmd = { 'html-languageserver', '--stdio' },
   capabilities = capabilities,
   -- Adding heex files
-  filetypes = { 'html', 'heex' }
+  filetypes = { 'html', 'heex', 'sface' }
 })
 
-lspconfig.cssls.setup({
+manager.setup("cssls", {
   -- Custom command for the new executables for vscode html language server
   cmd = { 'css-languageserver', '--stdio' },
   capabilities = capabilities
 })
 
-lspconfig.tsserver.setup({
+manager.setup("tsserver", {
   capabilities = capabilities,
   filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx' },
   root_dir = function() return vim.loop.cwd() end
 })
 
-lspconfig.eslint.setup({
+manager.setup("eslint", {
   capabilities = capabilities
 })
 
-lspconfig.flow.setup({
+manager.setup("flow", {
   capabilities = capabilities,
   root_dir = function() return vim.loop.cwd() end
+})
+
+manager.setup("eslint", {
+  format = true
 })
 
 manager.setup('tailwindcss')
